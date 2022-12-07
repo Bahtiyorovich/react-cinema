@@ -1,11 +1,11 @@
 import React from 'react'
 import './movi-list_item.css'
 
-const MovieListItem = () => {
+const MovieListItem = (props) => {
   return (
-    <li className="list-group-item d-flex justify-content-between">
-        <span className="list-group-item-label">Empire Of Osman</span>
-        <input type="number" className="form-control w-25 list-group-item-input " defaultValue="1255"/>
+    <li className={`list-group-item d-flex justify-content-between ${props.favourite && 'favourite'}`}>
+        <span className="list-group-item-label">{props.name}</span>
+        <input type="number" className="form-control w-25 list-group-item-input " defaultValue={props.views}/>
         <div className="d-flex justify-content-center align-items-center">
             <button type="button" className='btn-cookie btn-sm'>
                 <i className="fas fa-cookie"></i>
