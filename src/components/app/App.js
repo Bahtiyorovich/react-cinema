@@ -14,7 +14,15 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      data: [],
+      data: [
+        {id:1, name: 'Hitmen Agent', views: 345, favourite: false, like: false},
+        {id:2, name: 'Agent 007', views: 34587, favourite: false, like: false},
+        {id:3, name: 'Avangers', views: 652, favourite: false, like: false},
+        {id:4, name: 'Harry Poter', views: 145, favourite: false, like: false},
+        {id:5, name: 'Iron Man', views: 123987, favourite: false, like: false},
+      ],
+      term: '',
+      filter: 'all',
     }
   }
   
@@ -47,24 +55,46 @@ class App extends Component {
     }))
   }
   
+  /*Search Component to method */
+  searchHandler = (arr, term) => {
+    if(term.length === 0){
+      return arr
+    }
+    return arr.filter(item => item.name.toLowerCase().indexOf(term) > -1)
+  }
+
+  filterHandler = (arr, filter) => {
+    switch (filter) {
+      case 'like': 
+        return arr.filter( c => c.like)
+      case 'views': 
+        return arr.filter( c => c.views > 1000)
+      default: 
+        return arr;
+    }
+  }
+
+  updateTermHandler = term =>  this.setState({ term })
+  updateFilterHandler = filter => this.setState({ filter })
 
   render() {
     
-    const {data} = this.state;
+    const {data, term, filter} = this.state;
     const allMoviesCount = data.length;
     const favouriteMoviesCount = data.filter(c => c.favourite).length;
+    const visibleData = this.filterHandler(this.searchHandler(data, term), filter)
 
     return (
       <div className="app">
         <div className = "content"> 
           <AppInfo allMoviesCount={allMoviesCount} favouriteMoviesCount={favouriteMoviesCount}/>
           <div className="search-boxpanel">
-            <SearchPanel/>
-            <Filter/>
+            <SearchPanel updateTermHandler = {this.updateTermHandler}/>
+            <Filter filter={filter} updateFilterHandler={this.updateFilterHandler}/>
           </div>
           <div className="movies">
             <MoviesList 
-              data={data} 
+              data={visibleData} 
               onDelete = {this.onDelete}
               onToogleActiveIcon = {this.onToogleActiveIcon}
               />
