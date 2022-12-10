@@ -2,13 +2,18 @@ import React from 'react'
 import './movies-list.css'
 import MovieListItem from '../movies-item/MovieListItem'
 
-export const MoviesList = ({data}) => {
+const MoviesList = ({data, onDelete, onToogleActiveIcon}) => {
   return (
     <ul className="movie-list">
       {
         data.map(item => {
           return (
-            <MovieListItem {...item} key={item.name}/>
+            <MovieListItem 
+              {...item} 
+              key={item.id} 
+              onDelete={() => onDelete(item.id)}
+              onToogleActiveIcon={(e) => onToogleActiveIcon(item.id, e.currentTarget.getAttribute('data-toogle'))}
+            />
           )
         })
       }
@@ -16,3 +21,5 @@ export const MoviesList = ({data}) => {
     </ul>
   )
 }
+
+export default MoviesList;
