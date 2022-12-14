@@ -1,21 +1,24 @@
+import { useContext } from 'react';
+import { Context } from '../../context';
 import './filter.css'
 
-const Filter = ({updateFilterHandler, filter}) => {
+const Filter = () => {
+
+    const {state, dispatch} = useContext(Context)
+    
     return (
 
         <div className="btn-group">
             {btnsArr.map(btn => (
                 <button 
-                    onClick={() => updateFilterHandler(btn.name)}
+                    onClick={() => dispatch({type: 'ON_FILTER', payload: btn.name})}
                     key={btn.name}
-                    className={` btn ${filter === btn.name ? 'btn-dark': 'btn-outline-dark'}`}
+                    className={` btn ${state.filter === btn.name ? 'btn-dark': 'btn-outline-dark'}`}
                     type='button'
                 >
                     {btn.label}
                 </button>
             ))}
-            {/* <button className='btn btn-outline-dark' type='button'>Popular Movies</button>
-            <button className='btn btn-outline-dark' type='button'>Most viewed movies</button>   */}
         </div>
     );
 }
